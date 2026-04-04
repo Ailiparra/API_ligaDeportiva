@@ -15,9 +15,19 @@ builder.Services.AddDbContext<LeagueDbContext>(options =>
 // ── Repositories ──
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>(); // NUEVO
+builder.Services.AddScoped<IRefereeRepository, RefereeRepository>(); // NUEVO
+
+builder.Services.AddScoped<ITournamentRepository, TournamentRepository>(); // NUEVO
+
+builder.Services.AddScoped<ITournamentTeamRepository, TournamentTeamRepository>(); // NUEVO
 
 // ── Services ──
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>(); // NUEVO
+builder.Services.AddScoped<IRefereeService, RefereeService>(); // NUEVO
+
+builder.Services.AddScoped<ITournamentService, TournamentService>(); // NUEVO
 
 // ── AutoMapper ──
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -43,3 +53,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
