@@ -32,6 +32,10 @@ public class LeagueDbContext : DbContext
 
     public DbSet<TournamentTeam> TournamentTeams => Set<TournamentTeam>(); // NUEVO
 
+    public DbSet<Sponsor> Sponsors => Set<Sponsor>();
+
+    public DbSet<TournamentSponsor> TournamentSponsors => Set<TournamentSponsor>();
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 
@@ -270,6 +274,59 @@ public class LeagueDbContext : DbContext
 
             .IsUnique();
 
+        });
+
+        // ── Sponsor Configuration ──
+        modelBuilder.Entity<Sponsor>(entity =>
+        {
+            entity.HasKey(s => s.Id);
+
+            entity.Property(s => s.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(s => s.ContactEmail)
+                .IsRequired()
+                .HasMaxLength(150);
+
+            entity.Property(s => s.Phone)
+                .HasMaxLength(20);
+
+            entity.Property(s => s.WebsiteUrl)
+                .HasMaxLength(200);
+
+            // Requerimiento: Índice único en el nombre
+            entity.HasIndex(s => s.Name)
+                .IsUnique();
+        });
+
+        // ── TournamentSponsor Configuration (N:M) ──
+        modelBuilder.Entity<TournamentSponsor>(entity =>
+        {
+            entity.HasKey(ts => ts.Id);
+
+            entity.Property(ts => ts.ContractAmount)
+                .IsRequired()
+                .HasPrecision(18, 2); // Configuración para decimales
+
+            entity.Property(ts => ts.JoinedAt)
+                .IsRequired();
+
+            // Relación con Tournament
+            entity.HasOne(ts => ts.Tournament)
+                .WithMany(t => t.TournamentSponsors)
+                .HasForeignKey(ts => ts.TournamentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relación con Sponsor
+            entity.HasOne(ts => ts.Sponsor)
+                .WithMany(s => s.TournamentSponsors)
+                .HasForeignKey(ts => ts.SponsorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Índice único compuesto: un patrocinador solo una vez por torneo
+            entity.HasIndex(ts => new { ts.TournamentId, ts.SponsorId })
+                .IsUnique();
         });
 
     }

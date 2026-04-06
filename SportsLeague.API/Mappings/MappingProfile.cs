@@ -59,6 +59,29 @@ public class MappingProfile : Profile
 
                     src.TournamentTeams != null ? src.TournamentTeams.Count : 0));
 
+        // ── Sponsor mappings ──
+        CreateMap<Sponsor, SponsorResponseDTO>();
+
+        CreateMap<SponsorRequestDTO, Sponsor>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.TournamentSponsors, opt => opt.Ignore());
+
+        // ── TournamentSponsor mappings (N:M) ──
+        CreateMap<TournamentSponsor, TournamentSponsorResponseDTO>()
+            .ForMember(dest => dest.SponsorName,
+                opt => opt.MapFrom(src => src.Sponsor != null ? src.Sponsor.Name : string.Empty))
+            .ForMember(dest => dest.TournamentName,
+                opt => opt.MapFrom(src => src.Tournament != null ? src.Tournament.Name : string.Empty));
+
+        CreateMap<TournamentSponsorRequestDTO, TournamentSponsor>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.Tournament, opt => opt.Ignore())
+            .ForMember(dest => dest.Sponsor, opt => opt.Ignore());
+
     }
 
 }
