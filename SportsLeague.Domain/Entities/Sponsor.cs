@@ -6,7 +6,7 @@ using System;
 
 namespace SportsLeague.Domain.Entities;
 
-public class Sponsor : AuditBase
+public class Sponsor : AuditBase             
 {
 
     public string Name { get; set; } = string.Empty;

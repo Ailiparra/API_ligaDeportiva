@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using SportsLeague.API.Services;
 using SportsLeague.DataAccess.Context;
 using SportsLeague.DataAccess.Repositories;
+using SportsLeague.Domain.Helpers;
 using SportsLeague.Domain.Interfaces.Repositories;
 using SportsLeague.Domain.Interfaces.Services;
 using SportsLeague.Domain.Services;
-using SportsLeague.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,12 @@ builder.Services.AddScoped<IRefereeRepository, RefereeRepository>();
 builder.Services.AddScoped<ITournamentRepository, TournamentRepository>(); 
 builder.Services.AddScoped<ITournamentTeamRepository, TournamentTeamRepository>();
 builder.Services.AddScoped<ISponsorRepository, SponsorRepository>(); // nuevo 
+builder.Services.AddScoped<IMatchRepository, MatchRepository>(); // nuevo
+builder.Services.AddScoped<IMatchResultRepository, MatchResultRepository>();
+builder.Services.AddScoped<IGoalRepository, GoalRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+
+
 
 // ── Services ──
 builder.Services.AddScoped<ITeamService, TeamService>();
@@ -28,7 +35,11 @@ builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IRefereeService, RefereeService>(); 
 builder.Services.AddScoped<ITournamentService, TournamentService>(); 
 builder.Services.AddScoped<ISponsorService, SponsorService>(); // nuevo
-builder.Services.AddScoped<ITournamentSponsorRepository, TournamentSponsorRepository>(); //nuevo
+builder.Services.AddScoped<ITournamentSponsorRepository, TournamentSponsorRepository>(); // nuevo
+builder.Services.AddScoped<IMatchService, MatchService>(); // nuevo
+builder.Services.AddScoped<IMatchEventService, MatchEventService>();
+builder.Services.AddScoped<MatchValidationHelper>();
+
 
 // ── AutoMapper ──
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -39,6 +50,8 @@ builder.Services.AddControllers();
 // ── Swagger ──
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 var app = builder.Build();
 
@@ -54,5 +67,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
 

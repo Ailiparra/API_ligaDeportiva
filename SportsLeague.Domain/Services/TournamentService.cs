@@ -303,7 +303,7 @@ public class TournamentService : ITournamentService
 
         _logger.LogInformation(
 
-        "Registering team {TeamId} in tournament {TournamentId}",
+            "Registering team {TeamId} in tournament {TournamentId}",
 
         teamId, tournamentId);
 
