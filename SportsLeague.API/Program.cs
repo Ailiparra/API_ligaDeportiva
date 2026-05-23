@@ -29,6 +29,7 @@ builder.Services.AddScoped<IMatchRepository, MatchRepository>(); // nuevo
 builder.Services.AddScoped<IMatchResultRepository, MatchResultRepository>();
 builder.Services.AddScoped<IGoalRepository, GoalRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IMatchLineupRepository, MatchLineupRepository>();
 
 
 
@@ -41,6 +42,7 @@ builder.Services.AddScoped<ISponsorService, SponsorService>(); // nuevo
 builder.Services.AddScoped<ITournamentSponsorRepository, TournamentSponsorRepository>(); // nuevo
 builder.Services.AddScoped<IMatchService, MatchService>(); // nuevo
 builder.Services.AddScoped<IMatchEventService, MatchEventService>();
+builder.Services.AddScoped<IMatchLineupService, MatchLineupService>();
 builder.Services.AddScoped<MatchValidationHelper>();
 
 builder.Services.AddScoped<IStandingsService, StandingsService>();
